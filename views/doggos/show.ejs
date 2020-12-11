@@ -1,0 +1,64 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Yelp Doggo</p>
+            <div class="list-group">
+                <li class="list-group-item">
+                    Info 1
+                </li>
+                <li class="list-group-item">
+                    Info 2
+                </li>
+                <li class="list-group-item">
+                    Info 3
+                </li>
+                
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-responsive" src="<%= doggo.image %>" alt="">
+                <div class="caption-full">
+                    <h4 class="pull-right">$<%= doggo.price %> / hour</h4>
+                    <h4><a><%= doggo.name %></a></h4>
+                    <p><%= doggo.description %></p>
+                    <p>
+                        <em>Submitted By <%= doggo.author.username  %>, <%= moment(doggo.createdAt).fromNow() %></p></em>
+                </div>
+                <!-- Check if there is a logged in user and if he owns this doggo, then show edit and delete buttons -->
+                <% if (currentUser && doggo.author.id.equals(currentUser._id)) { %>
+                <a class="btn btn-warning" href="/doggos/<%= doggo._id %>/edit">Edit</a>
+                <form class="delete-form" action="/doggos/<%= doggo._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+                <% } %>
+            </div>
+            <div class="well">
+                <div class="text-right">
+                    <a class="btn btn-success" href="/doggos/<%= doggo._id %>/comments/new" >Add New Comment</a>
+                </div>
+                <hr>
+                <% doggo.comments.forEach(function(comment) { %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong><%= comment.author.username %></strong>
+                        <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+                        <p><%= comment.text %></p>
+                        <!-- Comment authorization -->
+                        <% if (currentUser && comment.author.id.equals(currentUser._id) ) {  %>                    
+                        <a class="btn btn-xs btn-warning" href="/doggos/<%= doggo._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                        <form class="delete-form"  action="/doggos/<%= doggo._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                            <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                        </form>
+                       <%  }  %>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+
+</div>
+<%- include("../partials/footer") %>
