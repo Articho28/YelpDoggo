@@ -1,4 +1,4 @@
-YelpDoggo is a app where you can rent a doggo for a few hours and spend some quality time.
+YelpDoggo is a app where you can browse through some doggos.
 
 This is a fullstack application built in the context of the Web Developer Bootcamp course by Colt Steele on Udemy. 
 Bootstrap + EJS frontend
